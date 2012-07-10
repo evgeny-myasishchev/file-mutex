@@ -1,9 +1,5 @@
 require 'fileutils'
 
-#File based implementation of named mutexes in ruby.
-#Used for inter process synchronizaion withing the same local environment.
-#To start using it locks_dir should be set to some folder. 
-#Same folder should be set for each process in order to use same named mutex
 class FileMutex
   def initialize(name)
     @name = name

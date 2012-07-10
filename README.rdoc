@@ -1,0 +1,31 @@
+= File based implementation of named mutexes in ruby.
+
+== Description
+
+Named Mutexes are often used for inter process synchronization within the same local environment (local PC). Native Ruby implementation of Mutex is limited to be used across the same process. This module implements a very basic file based implementation of named Mutex.
+
+To start using it set FileMutex::locks_dir to some folder. The folder is used to store lock files. Each named mutex creates corresponding lock file. To use mutexes across several process the FileMutex::locks_dir should be initialized to the same folder for each process.
+
+== SYNOPSIS
+
+You can find code below in file test/process-lock.rb. Just execute that ruby script two (or more) times.
+
+	require File.expand_path('../../lib/file_mutex', __FILE__)
+
+	FileMutex::locks_dir = File.expand_path('../../tmp', __FILE__)
+
+	puts "Acquiring shared lock: test"
+	mutex = FileMutex::acquire "test"
+
+	puts "Shared lock acquired. Press ENTER to release."
+	gets
+
+	mutex.release
+	puts "Mutex released. Press ENTER to exit."
+	gets
+
+	puts "Process exit."
+	
+== License
+
+MIT
