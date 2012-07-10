@@ -10,21 +10,21 @@ To start using it set FileMutex::locks_dir to some folder. The folder is used to
 
 You can find code below in file test/process-lock.rb. Just execute that ruby script two (or more) times.
 
-	require File.expand_path('../../lib/file_mutex', __FILE__)
-
-	FileMutex::locks_dir = File.expand_path('../../tmp', __FILE__)
-
-	puts "Acquiring shared lock: test"
-	mutex = FileMutex::acquire "test"
-
-	puts "Shared lock acquired. Press ENTER to release."
-	gets
-
-	mutex.release
-	puts "Mutex released. Press ENTER to exit."
-	gets
-
-	puts "Process exit."
+        require File.expand_path('../../lib/file_mutex', __FILE__)
+        
+        FileMutex::locks_dir = File.expand_path('../../tmp', __FILE__)
+        
+        puts "Acquiring shared lock: test"
+        mutex = FileMutex::acquire "test"
+        
+        puts "Shared lock acquired. Press ENTER to release."
+        gets
+        
+        mutex.release
+        puts "Mutex released. Press ENTER to exit."
+        gets
+        
+        puts "Process exit."
 	
 == License
 
