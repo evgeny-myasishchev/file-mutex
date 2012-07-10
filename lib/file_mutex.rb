@@ -1,3 +1,5 @@
+require 'fileutils'
+
 #File based implementation of named mutexes in ruby.
 #Used for inter process synchronizaion withing the same local environment.
 #To start using it locks_dir should be set to some folder. 
@@ -10,7 +12,8 @@ class FileMutex
   
   #Acuires ownership on the mutext. Blocks untill the ownership obtained.
   def acquire
-    @lock_file ||= File.open(@lock_file_path, File::RDWR|File::CREAT, 0644)
+    @lock_file = File.open(@lock_file_path, File::RDWR|File::CREAT, 0644)
+    @lock_file.flock(File::LOCK_EX)
     self
   end
   
@@ -24,15 +27,18 @@ class FileMutex
   private
   
   class << self
-    def acuire(name)
-      new(name).acuire
+    def acquire(name)
+      new(name).acquire
     end
     
     def locks_dir
-      @@locks_dir || raise "Locks dir has not been initialized."
+      @@locks_dir || begin
+        raise "Locks dir has not been initialized."
+      end
     end
     
     def locks_dir=(value)
+      FileUtils.mkpath value
       @@locks_dir = value
     end
   end
